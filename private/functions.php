@@ -10,11 +10,6 @@
     return $data;
   }
 
-  function append_error($array, $message) {
-    // Push message onto an array
-    array_push($array, $message);
-  }
-
   function h($string="") {
     return htmlspecialchars($string);
   }
