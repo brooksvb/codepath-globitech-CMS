@@ -1,5 +1,20 @@
 <?php
 
+  /*
+    @function: sanitize input and convert to normal encoding
+  */
+  function process_input($data) {
+    $data = trim($data);              // Remove whitespace, /n, etc.
+    $data = stripslashes($data);      // Remove any backslashes for literal characters
+    $data = htmlspecialchars($data);  // Convert literal characters to HTML encoded
+    return $data;
+  }
+
+  function append_error($array, $message) {
+    // Push message onto an array
+    array_push($array, $message);
+  }
+
   function h($string="") {
     return htmlspecialchars($string);
   }
