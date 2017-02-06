@@ -1,8 +1,6 @@
 <?php
   require_once('../private/initialize.php');
 
-
-
   // Set default values for all variables the page needs.
   $error_messages = array(); // Initialize an array
 
@@ -49,6 +47,7 @@
       }
       if (!validate_email($email)) {
         array_push($error_messages, "Email must only contain letters, numbers, @ symbol, and underscores");
+        array_push($error_messages, "Email must be of format user@site.domain");
         $email_error = true;
       }
 
@@ -78,30 +77,29 @@
     }
 
 
-    // Perform Validations
-    // Hint: Write these in private/validation_functions.php
-
     // if there were no errors, submit data to database
-
+    if (empty($error_messages)) {
       // Write SQL INSERT statement
-      // $sql = "";
+      $sql = "INSERT INTO users (first_name, last_name, email, username, created_at) ";
+      $sql .= "VALUES ('".$first_name."', '".$last_name."', '".$email."', '".$username."', '".date("Y-m-d H:i:s")."')";
 
       // For INSERT statments, $result is just true/false
-      // $result = db_query($db, $sql);
-      // if($result) {
-      //   db_close($db);
+      $result = db_query($db, $sql);
+      if($result) {
+        db_close($db);
 
       //   TODO redirect user to success page
+        redirect_to('registration_success.php');
 
-      // } else {
-      //   // The SQL INSERT statement failed.
-      //   // Just show the error, not the form
-      //   echo db_error($db);
-      //   db_close($db);
-      //   exit;
-      // }
-
+      } else {
+        // The SQL INSERT statement failed.
+        // Just show the error, not the form
+        echo db_error($db);
+        db_close($db);
+        exit;
+      }
     }
+  }
 
 ?>
 
